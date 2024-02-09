@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Favorite Book</title>
+    <style>
+      *{
+          margin:0;
+          padding: 0;
+          font-family: sans-serif;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: #2196f3;
+      }
+
+      .container{
+        position: absolute;
+        left: 200px;
+        padding: 70px 40px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .container h2 {
+        color: #111;
+        margin-bottom: 45px;
+        line-height: 1em;
+        font-weight: 500;
+        padding-left: 10px;
+        border-left: 5px solid #2196f3;
+      }
+
+      .container .inputBox{
+        position: relative;
+        width: 300px;
+        height: 46px;
+        margin-bottom: 35px;
+      }
+
+      .container .inputBox:last-child
+      {
+        margin-bottom: 0;
+      }
+
+      .container .inputBox input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        border: 1px solid #111;
+        background: transparent;
+        padding: 10px;
+        border-radius: 4px;
+        box-sizing: border-box;
+        outline: none;
+        font-size: 16px;
+        color: #111;
+        font-weight: 300;
+      }
+
+      .container .inputBox span {
+        position: absolute;
+        top: 1px;
+        padding: 10px;
+        display: inline-block;
+        font-size: 16px;
+        color: #111;
+        font-weight: 300;
+        transition: 0.5s;
+        pointer-events: none;
+      }
+
+      .container .inputBox input:focus ~ span,
+      .container .inputBox input:valid ~ span
+      {
+        transform: translateX(-10px) translateY(-32px);
+        font-size: 12px;
+      }
+
+      .container .inputBox input[type="submit"]
+      {
+        background: #2196f3;
+        color: #fff;
+        border: none;
+        max-width: 120px;
+        cursor: pointer;
+        font-weight: 500;
+      }
+
+      .container .inputBox input[type="submit"]:hover
+      {
+        background: #ffa500;
+      }
+
+      .rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+      }
+
+      .rating input {
+        display: none;
+      }
+
+      .rating label {
+        font-size: 24px;
+        color: #ccc;
+        cursor: pointer;
+      }
+
+      .rating label:hover,
+      .rating label:hover ~ label {
+        color: #ffa500; 
+      }
+
+      .rating input:checked ~ label {
+        color: #ffa500; 
+      }
+
+      .styled-table {
+        position: absolute;
+        right: 200px;
+        padding: 70px 40px;
+        border-radius: 20px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+
+        background-color: #fff;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+      }
+
+      .styled-table h2 {
+        color: #111;
+        margin-bottom: 10px;
+        line-height: 1em;
+        font-weight: 500; 
+        padding-left: 10px;
+      }
+
+      .styled-table thead tr {
+        background-color: #2196f3;
+        color: #fff;
+        text-align: left;
+      }
+
+      .styled-table th,
+      .styled-table td {
+        padding: 12px 15px;
+      }
+
+      .styled-table tbody tr {
+          border-bottom: 1px solid #dddddd;
+      }
+
+      .styled-table tbody tr:nth-of-type(even) {
+          background-color: #f3f3f3;
+      }
+
+      .styled-table tbody tr:last-of-type {
+          border-bottom: 2px solid #2196f3;
+      }
+
+      .styled-table tbody tr.active-row {
+        color: #111;
+      }
+
+      .pagination-container {
+          margin-top: 10px;
+      }
+
+      .prev-btn, .next-btn {
+          background-color: #4CAF50;
+          color: white;
+          padding: 8px 12px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
+
+      .prev-btn:hover, .next-btn:hover {
+          background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Favorite Book</h2>
+
+      <form action="/" method="post">
+        <div class="mb-0">
+          <label for="text" class="form-label">Add new book:</label>
+        </div>
+      </br>
+        <div class="inputBox">
+          <input type="text" id="judul" name="judul" required="required">
+          <span>Judul</span>
+        </div>
+
+        <div class="inputBox">
+          <input type="text" id="penerbit" name="penerbit" required="required">
+          <span>Penerbit</span>
+        </div>
+
+        <label for="rating">Rating</label>
+        <div class="rating">
+          <input type="checkbox" id="star1" name="rating" value="5" />
+          <label for="star1">★</label>
+
+          <input type="checkbox" id="star2" name="rating" value="4" />
+          <label for="star2">★</label>
+
+          <input type="checkbox" id="star3" name="rating" value="3" />
+          <label for="star3">★</label>
+
+          <input type="checkbox" id="star4" name="rating" value="2" />
+          <label for="star4">★</label>
+
+          <input type="checkbox" id="star5" name="rating" value="1" />
+          <label for="star5">★</label>
+        </div>
+        <br />
+
+        <div class="inputBox">
+        <input type="submit" value="Submit">
+        </div>
+      </form>
+    </div>
+
+    <div class="styled-table">
+      <h2>List of Book</h2>
+      <table class="table" id="example">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Judul</th>
+            <th>Penerbit</th>
+            <th>Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ range .Books }}
+          <tr class="active-row">
+            <th>{{ .ID }}</th>
+            <td>{{ .Judul }}</td>
+            <td>{{ .Penerbit }}</td>
+            <td>{{ .Rating }}</td>
+          </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+    
+  </body>
+</html>

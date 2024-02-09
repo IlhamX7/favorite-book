@@ -1,4 +1,4 @@
-# Mini project Pitching 2 Pro Class Golang Harisenin.com
+# Mini project Pro Class Golang Harisenin.com
 
 ## Requirements
 For running this project please install go. Go:

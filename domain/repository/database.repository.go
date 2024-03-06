@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"favorite-book/domain/entity"
 	"fmt"
 	"log"
 
@@ -10,6 +11,9 @@ import (
 type DatabaseRepository interface {
 	Create(value any) error
 	FindAllBook(data any, conditions ...any) error
+	FindOneBook(data any) (*entity.Book, error)
+	Update(data any, payload any) (*entity.Book, error)
+	Delete(data any) (*entity.Book, error)
 }
 
 type databaseRepositoryImpl struct {
@@ -42,4 +46,42 @@ func (this databaseRepositoryImpl) FindAllBook(data any, conditions ...any) erro
 	}
 
 	return nil
+}
+
+func (this databaseRepositoryImpl) FindOneBook(data any) (*entity.Book, error) {
+	var book entity.Book
+	result := this.database.First(&book, "id = ?", data)
+
+	if result.Error != nil {
+		log.Println(fmt.Sprintf("error fetching book:: %v", result.Error))
+		return nil, result.Error
+	}
+
+	return &book, nil
+}
+
+func (this databaseRepositoryImpl) Update(data any, payload any) (*entity.Book, error) {
+	var book entity.Book
+	result := this.database.First(&book, "id = ?", data)
+
+	if result.Error != nil {
+		log.Println(fmt.Sprintf("error fetching book:: %v", result.Error))
+		return nil, result.Error
+	}
+
+	this.database.Model(&book).Updates(payload)
+
+	return &book, nil
+}
+
+func (this databaseRepositoryImpl) Delete(data any) (*entity.Book, error) {
+	var book entity.Book
+	result := this.database.Delete(&book, "id = ?", data)
+
+	if result.Error != nil {
+		log.Println(fmt.Sprintf("error fetching book:: %v", result.Error))
+		return nil, result.Error
+	}
+
+	return &book, nil
 }

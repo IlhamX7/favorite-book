@@ -32,7 +32,9 @@ func (b *BookController) SaveBook(ctx *fiber.Ctx) error {
 		return ctx.Status(statusCode).JSON(resp)
 	}
 
-	return ctx.Redirect("/")
+	// return ctx.Redirect("/")
+	resp, statusCode := util.ConstructResponseSuccess(fiber.StatusCreated, &book)
+	return ctx.Status(statusCode).JSON(resp)
 }
 
 func (b *BookController) GetAllBook(ctx *fiber.Ctx) error {
@@ -47,14 +49,75 @@ func (b *BookController) GetAllBook(ctx *fiber.Ctx) error {
 
 	for i, book := range *book {
 		responseBooks[i] = response.ResponseBookDTO{
-			ID:       i + 1,
+			ID:       book.ID,
 			Judul:    book.Judul,
 			Penerbit: book.Penerbit,
 			Rating:   book.Rating,
 		}
 	}
 
-	return ctx.Render("index", fiber.Map{
-		"Books": responseBooks,
-	})
+	// return ctx.Render("index", fiber.Map{
+	// 	"Books": responseBooks,
+	// })
+
+	resp, statusCode := util.ConstructResponseSuccess(fiber.StatusOK, responseBooks)
+	return ctx.Status(statusCode).JSON(resp)
+}
+
+func (b *BookController) GetOneBook(ctx *fiber.Ctx) error {
+	bookId := ctx.Params("bookId")
+	book, err := b.domain.BookUsecase.GetOneBook(bookId)
+
+	if err != nil {
+		resp, statusCode := util.ConstructResponseError(fiber.StatusBadRequest, "Failed to fetch book")
+		return ctx.Status(statusCode).JSON(resp)
+	}
+
+	resp, statusCode := util.ConstructResponseSuccess(fiber.StatusOK, book)
+	return ctx.Status(statusCode).JSON(resp)
+}
+
+func (b *BookController) UpdateBook(ctx *fiber.Ctx) error {
+	bookId := ctx.Params("bookId")
+
+	var payload *request.RequestBookDTO
+
+	if err := ctx.BodyParser(&payload); err != nil {
+		resp, statusCode := util.ConstructResponseError(fiber.StatusBadRequest, err.Error())
+		return ctx.Status(statusCode).JSON(resp)
+	}
+
+	updates := make(map[string]interface{})
+	if payload.Judul != "" {
+		updates["judul"] = payload.Judul
+	}
+	if payload.Penerbit != "" {
+		updates["penerbit"] = payload.Penerbit
+	}
+	if payload.Rating != 0 {
+		updates["rating"] = payload.Rating
+	}
+
+	book, err := b.domain.BookUsecase.UpdateBook(bookId, updates)
+
+	if err != nil {
+		resp, statusCode := util.ConstructResponseError(fiber.StatusBadRequest, "Failed to fetch book")
+		return ctx.Status(statusCode).JSON(resp)
+	}
+
+	resp, statusCode := util.ConstructResponseSuccess(fiber.StatusOK, book)
+	return ctx.Status(statusCode).JSON(resp)
+}
+
+func (b *BookController) DeleteBook(ctx *fiber.Ctx) error {
+	bookId := ctx.Params("bookId")
+	_, err := b.domain.BookUsecase.DeleteBook(bookId)
+
+	if err != nil {
+		resp, statusCode := util.ConstructResponseError(fiber.StatusBadRequest, "Failed to fetch book")
+		return ctx.Status(statusCode).JSON(resp)
+	}
+
+	resp, statusCode := util.ConstructResponseSuccess(fiber.StatusOK, "Success delete book")
+	return ctx.Status(statusCode).JSON(resp)
 }

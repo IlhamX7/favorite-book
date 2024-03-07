@@ -14,6 +14,8 @@ type DatabaseRepository interface {
 	FindOneBook(data any) (*entity.Book, error)
 	Update(data any, payload any) (*entity.Book, error)
 	Delete(data any) (*entity.Book, error)
+	SignUp(value any) error
+	SignIn(data any) (*entity.User, error)
 }
 
 type databaseRepositoryImpl struct {
@@ -84,4 +86,27 @@ func (this databaseRepositoryImpl) Delete(data any) (*entity.Book, error) {
 	}
 
 	return &book, nil
+}
+
+func (this databaseRepositoryImpl) SignUp(value any) error {
+	result := this.database.Create(value)
+
+	if result.Error != nil {
+		log.Println(fmt.Sprintf("error creating user:: %v", result.Error))
+		return result.Error
+	}
+
+	return nil
+}
+
+func (this databaseRepositoryImpl) SignIn(data any) (*entity.User, error) {
+	var user entity.User
+	result := this.database.First(&user, "username = ?", data)
+
+	if result.Error != nil {
+		log.Println(fmt.Sprintf("error fetching user:: %v", result.Error))
+		return nil, result.Error
+	}
+
+	return &user, nil
 }

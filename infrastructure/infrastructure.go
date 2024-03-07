@@ -25,5 +25,9 @@ func NewDatabaseConnection() *gorm.DB {
 		log.Fatal(err)
 	}
 
+	if err := db.AutoMigrate(&entity.User{}); err != nil {
+		log.Fatal(err)
+	}
+
 	return db
 }

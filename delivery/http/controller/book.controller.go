@@ -19,6 +19,11 @@ func NewBookController(domain domain.Domain) BookController {
 	}
 }
 
+func (b *BookController) Welcome(ctx *fiber.Ctx) error {
+	resp, statusCode := util.ConstructResponseSuccess(fiber.StatusOK, "Welcome to my favorite book")
+	return ctx.Status(statusCode).JSON(resp)
+}
+
 func (b *BookController) SaveBook(ctx *fiber.Ctx) error {
 	var book request.RequestBookDTO
 

@@ -8,6 +8,7 @@ import (
 
 type Domain struct {
 	BookUsecase usecase.BookUsecase
+	UserUsecase usecase.UserUsecase
 }
 
 func ConstructDomain() Domain {
@@ -17,7 +18,10 @@ func ConstructDomain() Domain {
 
 	bookUsecase := usecase.NewBookUsecase(databaseRepository)
 
+	userUsecase := usecase.NewUserUsecase(databaseRepository)
+
 	return Domain{
 		BookUsecase: &bookUsecase,
+		UserUsecase: &userUsecase,
 	}
 }

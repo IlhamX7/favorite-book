@@ -63,3 +63,10 @@ go to url http://localhost:8080/
 - Edit infrastructure.go
 - Install library
 - Running project on development 
+
+## Reference :
+```
+https://bit.ly/ProgramDetailsGOLANG
+
+https://dandelion-authority-347.notion.site/Advance-8ddb2fdf00be4a5fa4abda27e8b32fc8
+```
